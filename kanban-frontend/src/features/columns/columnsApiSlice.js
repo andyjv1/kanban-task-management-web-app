@@ -32,7 +32,7 @@ export const columnsApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: 'Column', id: 'LIST' }]
             }
         }),
-         addNewColumn: builder.mutation({
+        addNewColumn: builder.mutation({
             query: initialColumnData => ({
                 url: '/column',
                 method: 'POST',
@@ -57,10 +57,10 @@ export const columnsApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         deleteColumn: builder.mutation({
-            query: ({ id }) => ({
+            query: ({ boardId, id }) => ({
                 url: `/column`,
                 method: 'DELETE',
-                body: { id }
+                body: { boardId, id }
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Column', id: arg.id }

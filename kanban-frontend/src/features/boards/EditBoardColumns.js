@@ -18,12 +18,12 @@ const EditBoardColumns = ({ columnid, boardId, columnNames,
     }, [columnNames])
 
     if (onSaveBoardColumn == true) {
-        updateColumn({ id: column.id, name: column.name,  boardId})
-        
+        updateColumn({ id: column.id, name: column.name, boardId })
+
     }
 
-        const onDeleteColumnClicked = async () => {
-        await deleteColumn({ id: column.id })
+    const onDeleteColumnClicked = async () => {
+        await deleteColumn({ boardId: boardId, id: column.id })
     }
     return (
         <div>
@@ -32,7 +32,7 @@ const EditBoardColumns = ({ columnid, boardId, columnNames,
                 name="column"
                 type="text"
                 autoComplete="off"
-                value={columnNames.name}
+                value={column.name}
                 onChange={onColumnNameChanged}
                 placeholder="Todo"
             />

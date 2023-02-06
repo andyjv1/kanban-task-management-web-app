@@ -6,7 +6,8 @@ import { useState, useEffect } from "react"
 import { useUpdateBoardMutation, useDeleteBoardMutation, selectBoardById } from "./boardsApiSlice"
 import {
     useUpdateColumnMutation, useDeleteColumnMutation,
-    useGetColumnsQuery, selectColumnById
+    useGetColumnsQuery, selectColumnById,
+    useAddNewColumnMutation
 } from "../columns/columnsApiSlice"
 import iconcross from "../assets/icon-cross.svg";
 
@@ -21,6 +22,13 @@ const EditBoard = () => {
     const goToBoard = () => board
         ? navigate(`/board/${id}`)
         : navigate(`/board`)
+
+    const [postColumn, {
+        // isLoading,
+        // isSuccess,
+        // isError,
+        // error
+    }] = useUpdateBoardMutation()
 
     const [updateBoard, {
         isLoading,
@@ -51,7 +59,7 @@ const EditBoard = () => {
         error: delerror
     }] = useDeleteColumnMutation()
 
-     const [name, setName] = useState(board.name)
+    const [name, setName] = useState(board.name)
     const [validName, setValidName] = useState(false)
     const [columnNames, setColumnNames] = useState('')
     const [validColumnNames, setValidColumnNames] = useState(false)
@@ -59,13 +67,13 @@ const EditBoard = () => {
 
     let columnInBoard
     if (columns) {
-            const { ids } = columns
+        const { ids } = columns
 
-     columnInBoard = board.columns.filter(i => ids.includes(i))
+        columnInBoard = board.columns.filter(i => ids.includes(i))
     }
 
 
-   
+
 
 
     useEffect(() => {
@@ -106,12 +114,47 @@ const EditBoard = () => {
         e.preventDefault()
         await updateBoard({ id: board.id, name })
         setOnSaveBoardColumn(true)
-        navigate(`/board/${id}`) 
+        navigate(`/board/${id}`)
     }
+
+    const newColumnsDataToAdd = []
+    var newColumnsDataToAddContent = []
 
     const addColumns = (e) => {
         e.preventDefault()
+        // data models?
         let newColumn = { name: '' }
+
+        console.log('addColumns clicked')
+
+        // columnId, columnName, etc. (for later)
+        newColumnsDataToAdd.push(newColumn)
+
+        console.log('newColumnsDataToAdd val')
+        console.log(newColumnsDataToAdd)
+
+        newColumnsDataToAddContent = newColumnsDataToAdd.map(column =>
+            <div>
+                <input
+                    id="column"
+                    name="column"
+                    type="text"
+                    autoComplete="off"
+                    value={column.name}
+                    onChange={console.log('column name changed ' + column.name)}
+                    placeholder="Todo"
+                />
+
+                <button onClick={console.log('')}><img src={iconcross} alt="" /></button>
+            </div>)
+
+
+        console.log('newColumnsDataToAddContent val')
+        console.log(newColumnsDataToAddContent)
+
+        // here add GUI for so <input> value or action create column request -> api
+        // await updateBoard({ id: board.id, name })
+        // setOnSaveBoardColumn(true)
         setColumnNames([...columnNames, newColumn])
     }
 
@@ -128,7 +171,7 @@ const EditBoard = () => {
     const content = (<>
         <div className="overlay" onClick={goToBoard}></div>
         <form className="newBoardForm"
-        onSubmit={onSaveBoardColumnClicked}
+            onSubmit={onSaveBoardColumnClicked}
         >
             <h3>Edit Board</h3>
             <label htmlFor="name">Board Name</label>
@@ -141,7 +184,7 @@ const EditBoard = () => {
                 onChange={onnameChanged}
             />
             <label htmlFor="column">Board Columns</label>
-            {columnNames.map((input, index) => {
+            {/* {columnNames.map((input, index) => {
                 return (
                     <div className="newBoardForm2" key={index}>
                         <input
@@ -156,7 +199,7 @@ const EditBoard = () => {
                         <button onClick={() => removeColumns(index)}><img src={iconcross} alt="" /></button>
                     </div>
                 )
-            })}
+            })} */}
             {/* <div className="newBoardForm2"
             // key={index}
             >
@@ -173,6 +216,8 @@ const EditBoard = () => {
                 // onClick={() => removeColumns(index)}
                 ><img src={iconcross} alt="" /></button>
             </div> */}
+            {columnsNewContent}
+            {newColumnsDataToAddContent}
             <button className="lightButton"
                 onClick={addColumns}
             >+ Add New Column</button>
