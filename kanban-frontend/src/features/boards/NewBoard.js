@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import { useAddNewBoardMutation, useGetBoardsQuery } from "./boardsApiSlice"
 import { useAddNewColumnMutation } from "../columns/columnsApiSlice"
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectBoardById } from "./boardsApiSlice"
 import iconcross from "../assets/icon-cross.svg";
 
 
 const NewBoard = () => {
+        const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext(); 
     const { id } = useParams()
     const navigate = useNavigate()
     const board = useSelector(state => selectBoardById(state, id))
@@ -41,7 +42,8 @@ const NewBoard = () => {
     }] = useAddNewColumnMutation()
 
     const [name, setName] = useState('')
-    const [columnNames, setColumnNames] = useState([{name: ''}])
+    const [columnNames, setColumnNames] = useState([{ name: '' }])
+    const [isHover, setIsHover] = useState({})
 
 
 
@@ -60,17 +62,12 @@ const NewBoard = () => {
         let data = [...columnNames];
         data[index][event.target.name] = event.target.value;
         setColumnNames(data);
-        console.log(data);
-        console.log(data[index]);
-        console.log(event.target.name);
-        console.log(event.target.value);
-
     }
 
 
     const addColumns = (e) => {
         e.preventDefault()
-        let newColumn = { name: ''}
+        let newColumn = { name: '' }
         setColumnNames([...columnNames, newColumn])
     }
 
@@ -79,10 +76,41 @@ const NewBoard = () => {
         data.splice(index, 1)
         setColumnNames(data)
     }
-    const canSaveBoard = !isLoading
+    const canSaveBoard = [name].every(Boolean) && !isLoading
 
     const canSaveColumn = !isLoading2
 
+    const specialStyle = "none"
+    const specialStyle2 = "inline"
+    const specialStyle3 = " rgb(234, 85, 85)"
+    const specialStyle4 = " invert(68%) sepia(52%) saturate(5872%) hue-rotate(326deg) brightness(95%) contrast(92%)"
+
+    const mouseOver = (event, index) => {
+        setIsHover(c => {
+            return {
+                ...c,
+                [index]: true
+            };
+        })
+    }
+
+    const mouseOut = (event, index) => {
+        setIsHover(c => {
+            return {
+                ...c,
+                [index]: false
+            };
+        })
+    }
+
+        let disabled
+
+    if (columnNames.find(o => o.name === '')) {
+        disabled = true
+    } else {
+        disabled = false
+
+    }
     const onSaveBoardColumnClicked = async (e) => {
         e.preventDefault()
 
@@ -105,37 +133,65 @@ const NewBoard = () => {
             <p className={errClass}>{error?.data?.message}</p>
             <p className={errClass}>{error2?.data?.message}</p>
             <div className="overlay" onClick={goToBoard}></div>
-            <form className="newBoardForm" onSubmit={onSaveBoardColumnClicked}>
-                <h3>Add New Board</h3>
-                <label htmlFor="name">Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    autoComplete="off"
-                    value={name}
-                    onChange={onnameChanged}
-                    placeholder="e.g. Web Design"
-                />
-                <label htmlFor="column">Columns</label>
+            <form className="newBoardForm" onSubmit={onSaveBoardColumnClicked}
+            style={{ backgroundColor: backgroundColor1 }}>
+                <h3 style={{ color: textColor }}>Add New Board</h3>
+                <label htmlFor="name" style={{ color: textColor }}>Name</label>
+                <div className="inputClass"
+                    style={name === '' ? { borderColor: specialStyle3 } : null}>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        autoComplete="off"
+                        value={name}
+                        onChange={onnameChanged}
+                        placeholder="e.g. Web Design"
+                        style={{ backgroundColor: backgroundColor1 }}
+                    />
+                    <span
+                        style={name === '' ? { display: specialStyle2 } : { display: specialStyle }}
+                    >Can’t be empty</span>
+                </div>
+                <label htmlFor="column" style={{ color: textColor }}>Columns</label>
                 {columnNames.map((input, index) => {
                     return (
-                        <div className="newBoardForm2"  key={index}>
-                            <input
-                                id="column"
-                                name="name"
-                                type="text"
-                                autoComplete="off"
-                                value={input.name}
-                                onChange={event => onColumnNameChanged(index, event) }
-                                placeholder='Todo'
-                            />
-                            <button onClick={() => removeColumns(index)}><img src={iconcross} alt="" /></button>
+                        <div className="newBoardForm2" key={index}>
+                            <div className="inputClass"
+                                style={input.name === '' ? { borderColor: specialStyle3 } : null}>
+                                <input
+                                    id="column"
+                                    name="name"
+                                    type="text"
+                                    autoComplete="off"
+                                    value={input.name}
+                                    onChange={event => onColumnNameChanged(index, event)}
+                                    placeholder='Todo'
+                                    style={{ backgroundColor: backgroundColor1 }}
+                                />
+                                <span
+                                    style={input.name === '' ? { display: specialStyle2 } : { display: specialStyle }}
+                                >Can’t be empty</span>
+                            </div>
+                            <button
+                                onClick={() => removeColumns(index)}
+                                onMouseEnter={(e) => {
+                                    mouseOver(e, index);
+                                }}
+                                onMouseLeave={(e) => {
+                                    mouseOut(e, index);
+                                }}>
+                                <img src={iconcross} alt=""
+                                    style={isHover[index] & input.name === '' ? { filter: specialStyle4 } : null}
+
+                                />
+                            </button>
                         </div>
                     )
                 })}
                 <button className="lightButton" onClick={addColumns}>+ Add New Column</button>
-                <button className="darkButton" disabled={!canSaveBoard || !canSaveColumn}>Create New Board</button>
+                <button className="darkButton" disabled={!canSaveBoard || !canSaveColumn                 || disabled
+}>Create New Board</button>
             </form>
         </>
     )

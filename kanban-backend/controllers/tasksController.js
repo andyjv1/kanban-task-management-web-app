@@ -32,6 +32,7 @@ const createNewTask = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' })
         }
 
+    
         tasks = column.tasks
         tasks.map(async (task) => {
             taskId = task._id.toString()
@@ -63,7 +64,7 @@ const createNewTask = asyncHandler(async (req, res) => {
 // @route PATCH /
 // @access public
 const updateTask = asyncHandler(async (req, res) => {
-    const { columnId, id, title, description, status } = req.body
+    const { columnId, id, title, description } = req.body
 
     if (!columnId) {
         return res.status(400).json({ message: 'Need Column Id' })
@@ -73,7 +74,7 @@ const updateTask = asyncHandler(async (req, res) => {
     if (column) {
 
         // Confirm data
-        if (!id, !title || !status) {
+        if (!id, !title) {
             return res.status(400).json({ message: 'All fields are required' })
         }
 
@@ -94,19 +95,24 @@ const updateTask = asyncHandler(async (req, res) => {
         })
         task.title = title
         task.description = description
-        task.status = status
 
-        const updatedTask = await task.save()
-
-        if (status != req.params.columnId) {
-            column.tasks.pull(updatedTask);
-            const newColumn = await Column.findById(status);
-            newColumn.tasks.push(updatedTask);
+        if (columnId != task.status) {
+            const oldColumn = await Column.findById(task.status);
+            task.status=columnId
+            const updatedTask = await task.save()
+            oldColumn.tasks.pull(updatedTask);
+            column.tasks.push(updatedTask);
             await column.save();
-            await newColumn.save();
-        }
-
+            await oldColumn.save();
         res.json(`'${updatedTask.title}' updated`)
+
+        } else {
+            const updatedTask = await task.save()
+        res.json(`'${updatedTask.title}' updated`)
+
+        }
+        
+
 
     } else {
         return res.status(400).json({ message: 'Enter valide Column' })
@@ -147,11 +153,10 @@ const deleteTask = asyncHandler(async (req, res) => {
 
     await Column.findByIdAndUpdate(columnId, { $pull: { tasks: id } });
 
-    await task.save();
-
     const reply = `Task '${result.title}' with ID ${result._id} deleted`
 
     res.json(reply)
+    
 })
 
 module.exports = {

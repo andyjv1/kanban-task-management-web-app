@@ -1,10 +1,11 @@
 import BoardLayout from '../../components/BoardLayout'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectBoardById } from "./boardsApiSlice"
 import { useDeleteBoardMutation } from "./boardsApiSlice"
 
 const DeleteBoard = () => {
+    const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext(); 
 
     const { id } = useParams()
     const navigate = useNavigate()
@@ -27,7 +28,7 @@ const DeleteBoard = () => {
     const content = board ?
         (<>
             <div className="overlay" onClick={goToBoard}></div>
-            <div className="deleteBoardForm">
+            <div className="deleteBoardForm" style={{ backgroundColor: backgroundColor1 }}>
                 <h3>Delete this board?</h3>
                 <p>Are you sure you want to delete the '{board.name}'
                     board? This action will remove all columns and tasks and cannot be reversed.</p>

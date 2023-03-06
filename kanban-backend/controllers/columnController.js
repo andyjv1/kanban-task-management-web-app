@@ -110,7 +110,7 @@ const deleteColumn = asyncHandler(async (req, res) => {
 
     const { boardId, id } = req.body
 
-        if (!boardId) {
+    if (!boardId) {
         return res.status(400).json({ message: 'Need Board Id' })
     }
 
@@ -126,23 +126,21 @@ const deleteColumn = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Column not found' })
     }
     if (column.tasks) {
-                column.tasks.map(async (taskId) => {
-                    task = await Task.findById(taskId).exec()
-                    if (task.subtasks) {
-                        task.subtasks.map(async (subtasksId) => {
-                            subtask = await Subtask.findById(subtasksId).exec()
-                            await subtask.deleteOne()
-                        })
-                    }
-                    await task.deleteOne()
+        column.tasks.map(async (taskId) => {
+            task = await Task.findById(taskId).exec()
+            if (task.subtasks) {
+                task.subtasks.map(async (subtasksId) => {
+                    subtask = await Subtask.findById(subtasksId).exec()
+                    await subtask.deleteOne()
                 })
+            }
+            await task.deleteOne()
+        })
     }
 
     await Board.findByIdAndUpdate(boardId, { $pull: { columns: id } });
 
     const result = await column.deleteOne()
-
-    await column.save();
 
     const reply = `Column '${result.name}' with ID ${result._id} deleted`
 

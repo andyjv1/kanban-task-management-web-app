@@ -57,10 +57,10 @@ export const subtasksApiSlice = apiSlice.injectEndpoints({
             ]
         }),
         deleteSubtask: builder.mutation({
-            query: ({ id }) => ({
+            query: ({ id, taskId }) => ({
                 url: `/subtask`,
                 method: 'DELETE',
-                body: { id }
+                body: { id, taskId}
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Subtask', id: arg.id }

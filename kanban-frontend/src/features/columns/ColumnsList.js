@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { selectBoardById } from '../boards/boardsApiSlice';
 
 
-const ColumnList = () => {
+const ColumnList = ({backgroundColor1, textColor}) => {
 
     const { id } = useParams()
 
@@ -28,6 +28,7 @@ const ColumnList = () => {
     }
 
     if (isSuccess) {
+        
 
         const { ids } = columns
 
@@ -36,7 +37,8 @@ const ColumnList = () => {
 
         
         const columnsNewContent = columnInBoard?.length
-            ? columnInBoard.map(columnid => <Column key={columnid} columnid={columnid} boardId={id} />)
+            ? columnInBoard.map(columnid => <Column key={columnid} columnid={columnid} boardId={id} backgroundColor1={backgroundColor1}
+                textColor={textColor}/>)
             : null
 
         content = (

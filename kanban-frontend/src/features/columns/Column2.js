@@ -8,7 +8,9 @@ const Column = ({ columnid, boardId }) => {
     if (column) {
         return (
             < >
-                <option value={column.name}>{column.name}</option>
+                <option
+                    value={column.name}
+                >{column.name}</option>
             </>
         )
 

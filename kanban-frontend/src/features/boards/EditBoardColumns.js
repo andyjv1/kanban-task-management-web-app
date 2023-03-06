@@ -22,8 +22,9 @@ const EditBoardColumns = ({ columnid, boardId, columnNames,
         
     }
 
-        const onDeleteColumnClicked = async () => {
-        await deleteColumn({ id: column.id })
+    const onDeleteColumnClicked = async (e) => {
+        e.preventDefault()
+        await deleteColumn({ boardId, id: column.id })
     }
     return (
         <div>
@@ -34,7 +35,7 @@ const EditBoardColumns = ({ columnid, boardId, columnNames,
                 autoComplete="off"
                 value={columnNames.name}
                 onChange={onColumnNameChanged}
-                placeholder="Todo"
+                placeholder={column.name}
             />
 
             <button onClick={onDeleteColumnClicked}><img src={iconcross} alt="" /></button>

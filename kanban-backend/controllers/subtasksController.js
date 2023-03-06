@@ -76,7 +76,7 @@ const updateSubtask = asyncHandler(async (req, res) => {
     if (task) {
 
         // Confirm data
-        if (!id, !title || typeof isCompleted !== 'boolean') {
+        if (!id, !title) {
             return res.status(400).json({ message: 'All fields are required' })
         }
 
@@ -110,33 +110,33 @@ const updateSubtask = asyncHandler(async (req, res) => {
 // @route DELETE /
 // @access public
 const deleteSubtask = asyncHandler(async (req, res) => {
+
     const { taskId, id } = req.body
 
+    // Confirm data
     if (!taskId) {
-        return res.status(400).json({ message: 'Need Task Id' })
+        return res.status(400).json({ message: 'Task ID Required' })
     }
 
-    // Confirm data
     if (!id) {
         return res.status(400).json({ message: 'Subtask ID Required' })
     }
 
-    // Confirm task exists to delete 
+    // Confirm board exists to delete 
     const subtask = await Subtask.findById(id).exec()
 
     if (!subtask) {
-        return res.status(400).json({ message: 'subtask not found' })
+        return res.status(400).json({ message: 'Subtask not found' })
     }
-
+    
     const result = await subtask.deleteOne()
 
     await Task.findByIdAndUpdate(taskId, { $pull: { subtasks: id } });
 
-    await subtask.save();
-
     const reply = `Subtask '${result.title}' with ID ${result._id} deleted`
 
     res.json(reply)
+
 })
 
 module.exports = {

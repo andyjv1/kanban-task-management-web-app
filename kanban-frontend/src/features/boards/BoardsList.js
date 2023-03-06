@@ -4,7 +4,7 @@ import iconBoard from "../assets/icon-board.svg";
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const BoardsList = () => {
+const BoardsList = ({ setSidebarOpen, wide, chevronClicked, setChevronClicked }) => {
 
     const {
         data: boards,
@@ -21,9 +21,25 @@ const BoardsList = () => {
 
     const board = useSelector(state => selectBoardById(state, id))
 
-    const goToCreateBoard = () => board
-        ? navigate(`/board/${id}/createboard`)
-        : navigate(`/board/createboard`)
+    const goToCreateBoard = () => {
+        if (board) {
+            if (wide <= 470) {
+                setChevronClicked(!chevronClicked)
+                navigate(`/board/${id}/createboard`)
+            } else {
+                navigate(`/board/${id}/createboard`)
+
+            }
+        } else {
+            if (wide <= 470) {
+                setChevronClicked(!chevronClicked)
+                navigate(`/board/createboard`)
+            } else {
+                navigate(`/board/createboard`)
+
+            }
+        }
+    }
 
     if (isLoading) content = <p>Loading Boards...</p>
 
@@ -35,7 +51,8 @@ const BoardsList = () => {
         const { ids } = boards
 
         const boardContent = ids?.length
-            ? ids.map(boardId => <Board key={boardId} boardId={boardId} />)
+            ? ids.map(boardId => <Board key={boardId} boardId={boardId} setSidebarOpen={setSidebarOpen} wide={wide}
+                chevronClicked={chevronClicked} setChevronClicked={ setChevronClicked} />)
             : null
 
         const numberOfBoards = ids.length

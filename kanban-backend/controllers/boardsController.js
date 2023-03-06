@@ -92,6 +92,7 @@ const deleteBoard = asyncHandler(async (req, res) => {
     if (!board) {
         return res.status(400).json({ message: 'Board not found' })
     }
+    
     if (board.columns) {
         board.columns.map(async (columnId) => {
             column = await Column.findById(columnId).exec()

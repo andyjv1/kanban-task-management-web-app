@@ -1,8 +1,9 @@
-import BoardLayout from './BoardLayout' 
 import ViewTask from '../features/tasks/ViewTask'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom'
 
 const ViewTaskPage = () => {
+const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext(); // <-- access context value
+
     const { id } = useParams()
     const navigate = useNavigate()
     const goToBoard = () => navigate(`/board/${id}`)
@@ -10,7 +11,12 @@ const ViewTaskPage = () => {
     return (
         <>
             <div className="overlay" onClick={goToBoard}></div>
-            <div className="taskview"> <ViewTask /> </div>
+            <div className="taskview" style={{ backgroundColor: backgroundColor1 }}>
+                <ViewTask
+                    textColor={textColor}
+                    backgroundColor2={backgroundColor2}
+                    backgroundColor1={backgroundColor1}
+            /> </div>
         </>
     )
 }

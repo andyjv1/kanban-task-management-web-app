@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Poppins:wght@700&display=swap');
 
 /*General Styles*/
 
@@ -9,22 +9,33 @@
 }
 
 html,
-body, #root {
+body,
+#root {
   height: 100%;
   margin: 0;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 10;
+.overlay, .overlay2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
+.overlay{
+  height: 100%;
+  z-index: 10;
+
+} 
+.overlay2{
+  position: absolute;
+  height: calc(100% - 81px);
+/* top: 81px; */
+  z-index:0;
+
+}
 /*Utility Styles*/
 .errmsg {
   display: inline-block;
@@ -45,6 +56,10 @@ body, #root {
   flex-direction: column;
   background-color: rgb(228, 235, 250);
 
+}
+
+.homeMainDiv a {
+  cursor: pointer;
 }
 
 .logoDiv {
@@ -80,7 +95,7 @@ header {
 }
 
 .boardLogoNavDiv {
-  border-right: solid 1px rgb(228, 235, 250);
+  border-right: solid 1px rgb(228, 235, 250, 0.25);
   height: 97px;
   display: flex;
   align-items: center;
@@ -95,11 +110,11 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-flex-grow: 1;
+  flex-grow: 1;
   padding: 2rem;
   align-items: center;
   height: 97px;
-  border-bottom: solid 1px rgb(228, 235, 250);
+  border-bottom: solid 1px rgb(228, 235, 250, 0.25);
   background-color: white;
 }
 
@@ -113,6 +128,8 @@ flex-grow: 1;
 
 .buttonNavDiv img {
   height: 20px;
+  cursor: pointer;
+
 }
 
 .buttonNavDiv button {
@@ -122,144 +139,335 @@ flex-grow: 1;
   border: none;
   background-color: rgb(99, 95, 199);
   color: white;
+  cursor: pointer;
+}
+
+
+
+.buttonNavDiv button:hover {
+  background-color: rgb(168, 164, 255);
+}
+
+.buttonNavDiv button:disabled {
+  pointer-events: none;
+  opacity: 0.35;
 }
 
 .bigNavDiv h1 {
   font-size: 25px;
   font-weight: 900;
+
 }
 
-.editBoardBox{
-   height: 100px;
+.editBoardBox {
+  height: 100px;
   width: 200px;
-  background-color:white;
-  border-radius: 0 0 15px 15px;
-  display: none;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
   justify-content: space-evenly;
-  align-items:left;
+  align-items: left;
   flex-direction: column;
   position: absolute;
-  top: 96px;
+  top: 90px;
   right: 2rem;
+      z-index: 1;
 }
 
-.editBoardBox p{
-padding-left: 1rem;
+.editBoardBox p {
+  padding-left: 1rem;
+}
+
+.editBoardBox.active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: .5s;
+}
+
+.editBoardBox.inactive{
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: .5s;
 }
 .greyP {
   color: rgb(130, 143, 163);
-}
-.redP {
-  color: rgb(234, 85, 85);
+  cursor: pointer;
 }
 
-.newBoardForm, .editBoardForm, .deleteBoardForm{
-    position: absolute;
-    top:  50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    border-radius: 5px;
-    z-index: 11;
-    background-color: white;
+.redP {
+  color: rgb(234, 85, 85);
+  cursor: pointer;
+
+}
+
+.newBoardForm,
+.editBoardForm,
+.deleteBoardForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  z-index: 11;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 30rem;
   padding: 2rem;
 }
-.newBoardForm label, .editBoardForm label{
+
+.newBoardForm label,
+.editBoardForm label {
   font-size: .8rem;
   color: rgb(130, 143, 163);
   padding-top: 1.4rem;
   padding-bottom: .5rem;
-  
+  font-weight: 600;
+
 }
 
-.deleteBoardForm h3{
+.deleteBoardForm h3 {
   color: rgb(234, 85, 85);
   font-size: 1rem;
   padding-bottom: 1.4rem;
 }
 
-.deleteBoardForm p{
+.deleteBoardForm p {
   color: rgb(130, 143, 163);
   font-size: .8rem;
   line-height: 1.3rem;
-    padding-bottom: 1.3rem;
+  padding-bottom: 1.3rem;
 }
 
 
-.deleteButtons{
+.deleteButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
 }
 
-.redDeleteButton{
-    width: 45%;
-    height:2.5rem;
-    border-radius: 22px;
-    border: none;
-    background-color: rgb(234, 85, 85);
-    color: white;
+.redDeleteButton {
+  width: 45%;
+  height: 2.5rem;
+  border-radius: 22px;
+  border: none;
+  background-color: rgb(234, 85, 85);
+  color: white;
+  cursor: pointer;
 }
-.lightDeleteButton{
-    width: 45%;
-    height:2.5rem;
-    border-radius: 22px;
-    border: none;
-    background-color: rgb(229, 229, 236);
-    color:  rgb(99, 95, 199);
+
+.redDeleteButton:hover {
+  background-color: rgb(255, 152, 152);
+
 }
-.newBoardForm2{
-width: 100%;
+
+.lightDeleteButton {
+  width: 45%;
+  height: 2.5rem;
+  border-radius: 22px;
+  border: none;
+  background-color: rgb(229, 229, 236);
+  color: rgb(99, 95, 199);
+  cursor: pointer;
+}
+
+.lightDeleteButton:hover {
+  background-color: rgb(212, 212, 232);
+
+}
+
+.newBoardForm2 {
+  width: 100%;
   display: flex;
   flex-direction: row;
 
 }
-.newBoardForm2 button{
+
+
+
+.newBoardForm2 button {
   background-color: transparent;
   border: none;
   padding-left: 1rem;
+  cursor: pointer;
 }
 
-.newBoardForm2 input{
+.newBoardForm2 input {
 
-  margin-bottom: .8rem;
+  /* margin-bottom: .8rem; */
 }
 
 
-button.lightButton{
-    width: 100%;
-    height:2.7rem;
-    border-radius: 22px;
-    border: none;
-    background-color: rgb(229, 229, 236);
-    color:  rgb(99, 95, 199);
+
+button.lightButton {
+  width: 100%;
+  height: 2.7rem;
+  border-radius: 22px;
+  border: none;
+  background-color: rgb(229, 229, 236);
+  color: rgb(99, 95, 199);
+  cursor: pointer;
 }
+
+button.lightButton:hover {
+  background-color: rgb(212, 212, 232);
+
+}
+
 button.darkButton {
   width: 100%;
-    margin-top:1.8rem;
-    height:2.7rem;
-    border-radius: 22px;
-        border: none;
-    background-color:  rgb(99, 95, 199);
-color: white;
+  margin-top: 1.8rem;
+  height: 2.7rem;
+  border-radius: 22px;
+  border: none;
+  background-color: rgb(99, 95, 199);
+  color: white;
+  cursor: pointer;
 }
-.newBoardForm input, .editBoardForm input{
-width: 100%;
-height: 2.3rem;
+
+button.darkButton:hover {
+  background-color: rgb(168, 164, 255);
+
+}
+
+button.darkButton:disabled {
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.newBoardForm input,
+.editBoardForm input {
+  width: 100%;
+  height: 2.3rem;
+  /* border: 1px solid rgb(203, 210, 221);
+  border-radius: 5px; */
+  outline: 0;
+  border: 0;
+}
+
+/* #title, #name{
 border: 1px solid rgb(203, 210, 221);
-border-radius: 5px;
+  border-radius: 5px; 
+
+} */
+.newBoardForm textarea {
+  width: 100%;
+  height: 7rem;
+  border: 1px solid rgb(203, 210, 221);
+  border-radius: 5px;
+  font-family: Plus Jakarta Sans;
 }
 
-.newBoardForm input[type=text]
-{
+.newBoardForm input[type=text] {
 
-    padding-left: 10px;
+  padding-left: 10px;
 
 }
+
+.inputClass {
+  border: 1px solid rgb(203, 210, 221);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
+  width: 100%;
+  margin-bottom: 0.8rem;
+  border-radius: 5px;
+
+}
+
+.inputClass span {
+  font-size: .9rem;
+  width: 50%;
+  color: rgb(234, 85, 85);
+}
+
+.newBoardForm textarea {
+
+  padding: 10px 0 0 10px;
+
+}
+
+@media (max-width: 769px) {
+  .bigNavDiv h1 {
+    font-size: 1.2rem;
+  }
+
+  .bigNavDiv {
+    width: 10rem;
+  }
+
+  .boardLogoNavDiv {
+    /* width: 261px; */
+    max-width: 16rem;
+  }
+
+  .buttonNavDiv {
+    width: 12rem;
+  }
+
+  .buttonNavDiv button {
+    width: 10rem;
+  }
+
+  header {
+    max-height: 81px;
+  }
+}
+
+.boardLogoNavDivMobile,.boardSecondNavDivMobile{
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .bigNavDiv h1 {
+    font-size: 1rem;
+  }
+
+  .bigNavDiv {
+    padding: 1rem;
+  }
+
+  .buttonNavDiv button {
+    width: 7rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .bigNavDiv h1 {
+    font-size: 1rem;
+  }
+
+  .bigNavDiv {
+    padding: 1rem;
+  }
+
+  .buttonNavDiv button {
+    width: 6rem;
+    font-size: .6rem;
+  }
+}
+@media (max-width: 470px) {
+.boardLogoNavDiv,
+.bigNavDiv{
+  display:none
+}.boardLogoNavDivMobile,.boardSecondNavDivMobile{
+  display: flex;
+}
+
+.deleteBoardForm{
+      width: 21rem;
+}
+.editBoardBox{
+      right: 1rem;
+}
+}
+
+
 /*Column-Task Styles*/
 
 .mainContainer {
@@ -269,7 +477,25 @@ border-radius: 5px;
   width: 100%;
   background-color: rgb(244, 247, 253);
   align-items: stretch;
-  height: calc(100% - 97px);
+  height: 100%;
+}
+
+.mainContainer.active{
+
+  transform: translateX(0);
+  transition: transform .5s;
+}
+
+.mainContainer.inactive{
+
+  transform: translateX(-320px);
+  transition: transform .5s;
+}
+
+.bigMainColumnsContainer {
+  height: 100%;
+  background-color: rgb(244, 247, 253);
+
 }
 
 .mainColumnsContainer {
@@ -282,6 +508,18 @@ border-radius: 5px;
   overflow-x: scroll;
 }
 
+/* .mainColumnsContainer.active{
+
+  transform: translateX(0);
+  transition: transform .5s;
+}
+
+.mainColumnsContainer.inactive{
+
+  transform: translateX(-320px);
+  transition: transform .5s;
+} */
+
 .mainColumnsContainer2 {
   display: flex;
   flex-direction: column;
@@ -292,19 +530,28 @@ border-radius: 5px;
   overflow-x: scroll;
 }
 
-.mainColumnsContainer2 p{
-  color:  rgb(130, 143, 163);
+.mainColumnsContainer2 p {
+  color: rgb(130, 143, 163);
   margin-bottom: 2rem;
+  font-weight: 500;
 }
 
-.mainColumnsContainer2 button{
+.mainColumnsContainer2 button {
   width: 10rem;
-    height:2.7rem;
-    border-radius: 22px;
-    border: none;
-    background-color:  rgb(99, 95, 199);
-color: white;
+  height: 2.7rem;
+  border-radius: 22px;
+  border: none;
+  background-color: rgb(99, 95, 199);
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
 }
+
+.mainColumnsContainer2 button:hover {
+  background-color: rgb(168, 164, 255);
+
+}
+
 .columnscontainer {
   display: flex;
   flex-direction: column;
@@ -327,26 +574,44 @@ color: white;
   height: 16px;
   width: 16px;
   border-radius: 100%;
-  background-color: blue;
+  /* background-color: blue; */
 }
 
-.columnName p{
+.columnName p {
   margin-left: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgb(130, 143, 163);
+  font-weight: 500;
 }
+
 .taskBox {
   width: 18rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-left: 2rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-right: 2rem;
-
+  padding: 2rem 2rem 2rem 2rem;
+  cursor: pointer;
   margin-bottom: 1.5rem;
   background-color: white;
   border-radius: .4rem;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+  /* box-shadow: 0 1px 1px rgba(0,0,0,0.15), 0 2px 2px rgba(0,0,0,0.15), 0 4px 4px rgba(0,0,0,0.15), 0 8px 8px rgba(0,0,0,0.15); */
+  box-shadow: 0 10px 10px -3px rgb(0 0 0 / 10%), 0 1px 6px -4px rgb(0 0 0 / 10%);
+}
+
+.taskBox h4 {
+  padding-bottom: 10px;
+}
+
+.taskBox p {
+  color: rgb(130, 143, 163);
+  font-weight: 500;
+}
+
+.taskBox:hover h4 {
+  color: rgb(99, 95, 199);
 }
 
 .columnsContainerPlus {
@@ -354,8 +619,8 @@ color: white;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 2rem 0 0 2rem;
-  height: 50rem;
+  padding: 2rem 2rem 0 2rem;
+  height: 100%;
 }
 
 .columnNamePlus {
@@ -390,6 +655,55 @@ color: white;
   background-color: rgb(228, 235, 250);
   border-radius: .4rem;
   height: 100%;
+  cursor: pointer;
+}
+
+.taskBoxPlus h4 {
+  font-size: 1.5rem;
+  color: rgb(130, 143, 163);
+}
+
+.taskBoxPlus:hover h4 {
+  color: rgb(99, 95, 199);
+}
+
+@media (max-width: 769px) {
+  .mainColumnsContainer2 {
+    padding-bottom: 6rem;
+  }
+
+  .mainColumnsContainer2 p {
+    padding: 0 6rem;
+    text-align: center;
+  }
+
+  .columnName p {
+    font-size: .75rem;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 470px) {
+    .mainColumnsContainer2 p {
+      font-size: 1.2rem;
+    padding: 0 2rem;
+    text-align: center;
+  }
+  .mainColumnsContainer2 button {
+    width: 12rem;
+        height: 2.9rem;
+    border-radius: 25px;
+
+ font-size: 1rem;
+}
+
+.columnscontainer{
+  padding: 2rem 0 0 1.6rem;
+}
+.columnscontainer:nth-of-type(1){
+  padding: 2rem 0 0 1rem;
+}
+
 }
 
 /*Sidebar Styles*/
@@ -399,12 +713,31 @@ color: white;
   width: 40px;
   background-color: rgb(99, 95, 199);
   border-radius: 0 3rem 3rem 0;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 4rem;
+  bottom: 10rem;
   left: 0;
+  cursor: pointer;
+}
+
+.sidebarClosedButton.active{
+  /* opacity: 1;
+  visibility: visible; */
+  transform: translateX(-40px);
+  transition: transform .5s;
+}
+
+.sidebarClosedButton.inactive{
+  /* opacity: 0;
+  visibility: hidden; */
+  transform: translateX(320px);
+  transition: transform .5s;
+}
+
+.sidebarClosedButton:hover {
+  background-color: rgb(168, 164, 255);
 }
 
 .sidebarOpen {
@@ -415,33 +748,75 @@ color: white;
   flex-direction: column;
   align-items: center;
   width: 320px;
+  position: relative;
+  border-right: solid 1px rgb(228, 235, 250, 0.25);
 }
 
-.nameBoardSideBar{
-    width: 320px;
+.sidebarOpen.active{
+  /* opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition: transform .5s; */
+}
+
+.sidebarOpen.inactive{
+  /* opacity: 0;
+  visibility: hidden;
+  transform: translateX(-320px);
+  transition: transform .5s; */
+}
+
+.nameBoardSideBar {
+  width: 320px;
 
 }
 
 .clickedBoard {
-  /* width: 25rem; */
   display: flex;
   flex-direction: row;
-  padding:  1rem 2rem 1rem 2rem ;
-
+  padding: .8rem 2rem .8rem 2rem;
+  cursor: pointer;
 }
 
-.clickedBoardHighlighted{
-  display: flex;
-  flex-direction: row;
-  padding:  1rem 2rem 1rem 2rem ;
-  background-color:  rgb(99, 95, 199);
+.clickedBoard:hover {
+  background-color: rgb(236, 235, 245);
   border-radius: 0 30px 30px 0;
   margin-right: 1.5rem;
+  box-shadow: 0 10px 10px -3px rgb(0 0 0 / 10%), 0 1px 6px -4px rgb(0 0 0 / 10%);
 }
 
-.clickedBoardHighlighted p{
-color: white;
+.clickedBoard:hover p {
+  color: rgb(99, 95, 199);
 }
+
+.clickedBoardHighlighted {
+  display: flex;
+  flex-direction: row;
+  padding: .8rem 2rem .8rem 2rem;
+  background-color: rgb(99, 95, 199);
+  border-radius: 0 30px 30px 0;
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+
+.clickedBoardHighlighted:hover {
+  background-color: rgb(168, 164, 255);
+
+}
+
+.createdBoard {
+  display: flex;
+  flex-direction: row;
+  padding: .8rem 2rem .8rem 2rem;
+  color: rgb(99, 95, 199);
+  cursor: pointer;
+
+}
+
+.clickedBoardHighlighted p {
+  color: white;
+}
+
 .nonClickedBoard {
   width: 25rem;
   display: flex;
@@ -449,13 +824,7 @@ color: white;
   padding: 2rem;
 }
 
-.createdBoard {
-  /* width: 25rem; */
-  display: flex;
-  flex-direction: row;
-  padding:  1rem 2rem 1rem 2rem ;
-  color:  rgb(99, 95, 199);
-}
+
 
 .sidebarBoardName {
   display: flex;
@@ -463,13 +832,18 @@ color: white;
   justify-content: left;
   width: 100%;
   align-items: center;
-  padding:  1rem 2rem 1rem 2rem ;
+  padding: 1rem 2rem 1rem 2rem;
 
 }
 
-.sidebarBoardName p, .clickedBoard p{
-    color:  rgb(130, 143, 163);
+.sidebarBoardName p,
+.clickedBoard p {
+  color: rgb(130, 143, 163);
 
+}
+
+.sidebarBoardName p {
+  letter-spacing: 2px
 }
 
 .boards p {
@@ -482,31 +856,57 @@ color: white;
   width: 15rem;
   justify-content: center;
   background-color: rgb(228, 235, 250);
-  padding: .6rem 0;
+  padding: .7rem 0;
+  border-radius: .4rem;
 
 }
 
-.toggleDiv img{
+.toggleDiv img {
   padding: 0 2rem 0 2rem;
 }
 
 .clickSidebarOffDiv {
   display: flex;
   flex-direction: row;
-  justify-content: left;
-  width: 15rem;
-  padding: 2rem 0;
+  width: 19rem;
+  border-radius: 0 30px 30px 0;
+  margin: 1rem 3rem 3rem 0;
+  padding: 0.8rem 2rem 0.8rem 1.4rem;
+  /* width: 100%; */
+  cursor: pointer;
 }
 
-.clickSidebarOffDiv p{
-  padding-left: 1rem
+.clickSidebarOffDiv p {
+  padding-left: 1rem;
+  color: rgb(130, 143, 163);
   ;
 }
 
-/* .toggleMainDiv {
-  position: fixed;
-  bottom: 0;
-} */
+.clickSidebarOffDiv:hover {
+  background-color: rgb(236, 235, 245);
+  color: rgb(99, 95, 199);
+}
+
+.clickSidebarOffDiv:hover p {
+  color: rgb(99, 95, 199);
+
+}
+
+.clickSidebarOffDiv img {
+  padding-left: 2.2rem;
+}
+
+.toggleMainDiv {
+  width: 100%;
+  /* position: fixed;
+  bottom: 4rem; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+margin-bottom: 4rem;
+;
+}
 
 input[id=switch] {
   height: 0;
@@ -540,6 +940,10 @@ label[id=switch]:after {
   transition: 0.2s;
 }
 
+label[id=switch]:hover {
+  background-color: rgb(168, 164, 255);
+}
+
 input[id=switch]:checked+label[id=switch] {
   background: rgb(99, 95, 199);
 }
@@ -553,16 +957,169 @@ label[id=switch]:active:after {
   width: 0px;
 }
 
+@media (max-width: 769px) {
+
+  .sidebarOpen,
+  .nameBoardSideBar {
+    /* width: 261px;  */
+    max-width: 16rem;
+
+  }
+
+  .clickSidebarOffDiv {
+    padding-bottom: 0;
+  }
+
+  .clickSidebarOffDiv p {
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  .sidebarBoardName p {
+    font-size: .75rem;
+    font-weight: 500;
+  }
+
+  .clickedBoard p {
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  .clickedBoardHighlighted p {
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  .createdBoard {
+    font-size: .9rem;
+    font-weight: 500;
+  }
+
+  .sidebarClosedButton {
+    min-height: 48px;
+    min-width: 56px;
+  }
+
+  .toggleMainDiv{
+    margin-bottom: 0;
+
+  }
+}
+
+@media (max-width: 470px) {
+.sidebarOpen{
+  position:absolute;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    top: 1rem;
+    left: 0;   
+     border-radius: 8px;
+z-index: 1;
+}
+.sidebarOpen.active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: .5s;
+}
+
+.sidebarOpen.inactive{
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: .5s;
+}
+
+.clickSidebarOffDiv{
+  display:none;
+}
+
+.toggleDiv{
+  margin: 1rem 1rem 1rem 1rem;
+}
+header{
+  justify-content: space-between;
+}
+
+.toggleMainDiv{
+  position: relative;
+
+}
+.boardLogoNavDivMobile h1{
+  font-size: 1.3rem;
+  padding: 0 1rem 0 .5rem
+}
+.boardLogoNavDivMobile, .boardSecondNavDivMobile{
+    display:flex;
+  align-items: center;
+}
+
+.boardSecondNavDivMobile button{
+  width: 3rem;
+  height: 2rem;
+  border-radius: 30px;
+  border: none;
+  background-color: rgb(99, 95, 199);
+  color: white;
+  cursor: pointer;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.iconVerticalEllipsis{
+  height: 20px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+#iconVerticalEllipsisButton{
+  background-color:transparent;
+width: 20px;
+margin: 0;
+}
+.boardSecondNavDivMobile button:hover {
+  background-color: rgb(168, 164, 255);
+}
+.logoMobile{
+  width:24px;
+  height: 25px;
+  margin-left: 1rem;
+    cursor: pointer;
+}
+.chevronDown{
+  width:10px;
+  height: 7px;
+    cursor: pointer;
+}
+.chevronDown.active{
+
+  transform: rotate(180deg);
+  transition: .5s;
+}
+
+.chevronDown.inactive{
+
+  transform: rotate(0deg);
+  transition: .5s;
+}
+.chevronDownbutton{
+  border: none;
+  background: none;
+}
+}
 /*Task Styles*/
 
-.taskview{
-    position: absolute;
-    top:  50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    border-radius: 5px;
-    z-index: 11;
-    background-color: white;
+.taskview {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  z-index: 11;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -570,83 +1127,164 @@ label[id=switch]:active:after {
   padding: 2rem;
 }
 
-.taskview h3{
+.taskview h3 {
   padding-bottom: 1rem;
 }
-.taskandellipsis{
+
+.taskandellipsis {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content:space-between;
+  justify-content: space-between;
   /* padding-bottom: 2rem; */
-width: 100%;
+  width: 100%;
 }
 
-.taskandellipsis h3{
+.taskandellipsis h2 {
   padding-right: 2rem;
   font-weight: bold;
+  font-size: 2rem;
+  color: black;
   font-size: 1rem;
+  padding-bottom: 1.7rem;
 }
 
-.taskview h3, .taskview label{
-font-size: .7rem;
-text-align: left;
-    color:  rgb(130, 143, 163);
-
+.taskandellipsis img {
+  cursor: pointer;
 }
 
-.editTaskBox{
-   height: 100px;
+.taskview h3,
+.taskview label {
+  font-size: .7rem;
+  text-align: left;
+  color: rgb(130, 143, 163);
+}
+
+.taskview h3 {
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.taskview label {
+  font-weight: 700;
+  color: black
+}
+
+.editTaskBox {
+  height: 100px;
   width: 200px;
-  background-color:white;
+  background-color: white;
   border-radius: 15px;
   display: none;
   justify-content: space-evenly;
-  align-items:left;
+  align-items: left;
   flex-direction: column;
   position: absolute;
   top: 80px;
-  left:calc(30rem - 100px)
+  left: calc(30rem - 100px)
 }
 
 .editTaskBox p {
-    padding-left: 1rem;
+  padding-left: 1rem;
 }
-.labelSutasks{
+
+.labelSutasks {
   padding-bottom: 1rem;
 }
 
-.labelcolumns{
-    padding-bottom: .6rem;
-padding-top: .75rem;
+.labelcolumns {
+  padding-bottom: .6rem;
+  padding-top: .75rem;
 }
 
-.selectcolumns{
-    width: 100%;
+.selectcolumns {
+  width: 100%;
   padding: .7rem;
   margin-bottom: .7rem;
   border-radius: 5px;
   border: 1px solid rgb(130, 143, 163);
+  cursor: pointer;
 }
 
+@media (max-width: 769px) {
+  .taskBox {
+    width: 280px;
+    padding: 1.1rem 2rem;
+  }
+
+  .taskBox p {
+    font-size: .75rem;
+  }
+}
+@media (max-width: 470px) {
+
+.taskview, .newBoardForm{
+    width: 21rem;
+}
+
+.inputClass span{
+    font-size: .6rem;
+}
+
+.editTaskBox{
+      top:3rem;
+
+      right: 1rem;
+          left:auto
+}
+}
 /*Subtask Styles*/
 
-/* .togglesubtask label {
-  background: rgb(99, 95, 199);
-
-} */
-.togglesubtask{
+.togglesubtask,
+.darkinput {
   accent-color: rgb(99, 95, 199)
+}
+
+input.darkinput[type=checkbox]:after,
+input.darkinput[type=checkbox]::after {
+  content: " ";
+  background-color: rgb(62, 63, 78);
+  display: inline-block;
+  color: #00BFF0;
+  width: 13px;
+  height: 13px;
+  visibility: visible;
+}
+
+input.darkinput[type=checkbox]:checked:after {
+  display: none;
 
 }
 
-.Subtask{
+.Subtask {
   width: 100%;
   padding: .7rem;
   background-color: rgb(244, 247, 253);
   margin-bottom: .7rem;
   border-radius: 5px;
 }
-.Subtask label{
+
+
+.Subtask:hover {
+  background-color: rgb(236, 235, 245);
+}
+
+.Subtask:hover label {
+  font-weight: 800;
+  color: black;
+}
+
+:checked+label {
+  text-decoration: line-through;
+  color: rgb(130, 143, 163);
+
+}
+
+.Subtask label {
   padding-left: 1rem;
+  cursor: pointer;
+}
+
+.Subtask input {
+  cursor: pointer;
 }

@@ -1,9 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectTaskById } from './tasksApiSlice' 
 import { useDeleteTaskMutation } from './tasksApiSlice'
 
 const DeleteTask = () => {
+    const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext(); 
 
     const { id, taskid, columnid } = useParams()
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ const DeleteTask = () => {
     const content = task ?
         (<>
             <div className="overlay" onClick={goToBoard}></div>
-            <div className="deleteBoardForm">
+            <div className="deleteBoardForm" style={{ backgroundColor: backgroundColor1 }}>
                 <h3>Delete this task?</h3>
                 <p>Are you sure you want to delete the '{task.title}'
                     task? This action cannot be reversed.</p>
