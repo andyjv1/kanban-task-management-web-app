@@ -1,10 +1,11 @@
-import { useGetTasksQuery } from './tasksApiSlice'; 
+import { useGetTasksQuery } from './tasksApiSlice';
 import Task from './Task';
 import { useSelector } from 'react-redux'
-import { selectColumnById } from '../columns/columnsApiSlice'; 
+import { selectColumnById } from '../columns/columnsApiSlice';
 
-const TasksList = ({columnid, boardId, backgroundColor1, textColor}) => {
+const TasksList = ({ columnid, boardId, backgroundColor1, textColor }) => {
 
+    //observing the state in cache (if does not exist in cache it fetches from remote (REST API))
     const column = useSelector(state => selectColumnById(state, columnid))
 
     const {
@@ -28,10 +29,10 @@ const TasksList = ({columnid, boardId, backgroundColor1, textColor}) => {
         const { ids } = tasks
 
         const tasksInBoard = column.tasks.filter(i => ids.includes(i))
-        
+
         const tasksNewContent = tasksInBoard?.length
-            ? tasksInBoard.map(taskid => <Task key={taskid} taskid={taskid} boardId={boardId} columnid={ columnid} backgroundColor1={backgroundColor1}
-                textColor={textColor}/>)
+            ? tasksInBoard.map(taskid => <Task key={taskid} taskid={taskid} boardId={boardId} columnid={columnid} backgroundColor1={backgroundColor1}
+                textColor={textColor} />)
             : null
 
         content = (

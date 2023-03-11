@@ -9,7 +9,7 @@ import { selectAllSubtasks, useGetSubtasksQuery, useDeleteSubtaskMutation, useUp
 
 
 const EditTask = () => {
-    const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext(); 
+  const { backgroundColor1, textColor, backgroundColor2 } = useOutletContext();
   const { id, taskid } = useParams()
   const navigate = useNavigate()
   //BOARD
@@ -59,7 +59,7 @@ const EditTask = () => {
 
   //COLUMN  
   const columns = useSelector(selectAllColumns)
-  
+
 
   const onColumnChosen = e => setColumnId(e.target.value)
 
@@ -337,7 +337,7 @@ const EditTask = () => {
         <button className="lightButton" onClick={addSubtasks}>+ Add New Subtask</button>
         <label htmlFor="columns" className='labelcolumns' style={{ color: textColor }}>Status</label>
         <select id='columns' className='selectcolumns' onChange={onColumnChosen} value={columnId}
-        style={{ backgroundColor: backgroundColor1, color: textColor }}>
+          style={{ backgroundColor: backgroundColor1, color: textColor }}>
           {columnsForMenu}
         </select>
         <button type="submit" className="darkButton" disabled={!canSaveTask || disabled

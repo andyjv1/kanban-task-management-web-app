@@ -10,7 +10,7 @@ import { selectAllColumns } from "../columns/columnsApiSlice"
 import { selectBoardById } from "../boards/boardsApiSlice"
 import { selectAllSubtasks, useGetSubtasksQuery, useUpdateSubtaskMutation } from '../subtasks/subtasksApiSlice';
 
-const ViewTask = ({ textColor, backgroundColor2, backgroundColor1}) => {
+const ViewTask = ({ textColor, backgroundColor2, backgroundColor1 }) => {
 
     const ref = useRef()
     const navigate = useNavigate()
@@ -65,9 +65,10 @@ const ViewTask = ({ textColor, backgroundColor2, backgroundColor1}) => {
     const [columnId, setColumnId] = useState(fullColumnInBoard[index].id)
 
     const onColumnChosen = async (e) => {
+
         setColumnId(e.target.value)
-        console.log(c);
-        await updateTask({ title: task.title, columnId:e.target.value, id: taskid })
+        // console.log(c);
+        await updateTask({ title: task.title, columnId: e.target.value, id: taskid })
         // console.log(columnId);
     }
     //SUBTASK
@@ -143,7 +144,7 @@ const ViewTask = ({ textColor, backgroundColor2, backgroundColor1}) => {
     };
 
     let inputClass
-    backgroundColor1 ? inputClass="darkinput": inputClass="togglesubtask"
+    backgroundColor1 ? inputClass = "darkinput" : inputClass = "togglesubtask"
 
     subtaskComponent = fullsubtaskInTask.map((subtask, index) => {
         return (
@@ -158,7 +159,7 @@ const ViewTask = ({ textColor, backgroundColor2, backgroundColor1}) => {
                     value={subtask.title}
                     checked={subtask.isCompleted}
                 />
-                <label htmlFor="subtask" style={{ color: !subtask.isCompleted ? textColor: "rgb(130, 143, 163)" }}>{subtask.title}</label>
+                <label htmlFor="subtask" style={{ color: !subtask.isCompleted ? textColor : "rgb(130, 143, 163)" }}>{subtask.title}</label>
             </div>
         )
     })
@@ -223,27 +224,27 @@ const ViewTask = ({ textColor, backgroundColor2, backgroundColor1}) => {
                 <h2 style={{ color: textColor, paddingBottom: task.description ? "1.7rem" : "0" }}>{task.title}</h2>
                 <img src={iconVerticalEllipsis} alt="" onClick={onVerticalIconClicked} />
             </div>
-            <div className='editTaskBox' ref={ref} style={{ display: editTaskBox ? "none" : "flex" , backgroundColor: backgroundColor2}}>
+            <div className='editTaskBox' ref={ref} style={{ display: editTaskBox ? "none" : "flex", backgroundColor: backgroundColor2 }}>
                 <p className='greyP' onClick={() => { navigate(`/board/${id}/column/${columnid}/task/${taskid}/edittask`) }}>Edit Task</p>
                 <p className='redP' onClick={() => { navigate(`/board/${id}/column/${columnid}/task/${taskid}/deletetask`) }}>Delete Task</p>
             </div>
             <h3>{task.description}</h3>
             <label htmlFor="subtasks"
                 className='labelSutasks'
-            style={{ color: textColor }}>{subtaskLabel}</label>{/* To change */}
+                style={{ color: textColor }}>{subtaskLabel}</label>{/* To change */}
             {subtaskComponent}
             <label htmlFor="columns"
                 className='labelcolumns'
-            style={{ color: textColor }}>Current Status</label>
+                style={{ color: textColor }}>Current Status</label>
             <select id='columns'
-                className='selectcolumns' 
-                value={columnId} 
+                className='selectcolumns'
+                value={columnId}
                 onChange={onColumnChosen}
                 style={{ backgroundColor: backgroundColor2, color: textColor }}
             >
                 {columnsForMenu}
             </select>
-            
+
         </>
     )
     // }

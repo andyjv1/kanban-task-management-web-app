@@ -52,9 +52,13 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
                     ...initialTaskData,
                 }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Task', id: arg.id }
-            ]
+            invalidatesTags: (result, error, arg) => {
+                return [
+                    // since the column model contains the task model
+                    // when updating the task the column should be invalidated
+                    { type: 'Column', id: arg.columnId }
+                ]
+            }
         }),
         deleteTask: builder.mutation({
             query: ({ id, columnId }) => ({

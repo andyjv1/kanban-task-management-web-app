@@ -40,9 +40,11 @@ export const subtasksApiSlice = apiSlice.injectEndpoints({
                     ...initialSubtaskData,
                 }
             }),
-            invalidatesTags: [
-                { type: 'Subtask', id: "LIST" }
-            ]
+            invalidatesTags: (result, error, arg) => {
+                return [
+                    { type: 'Task', id: arg.taskId }
+                ]
+            }
         }),
         updateSubtask: builder.mutation({
             query: initialSubtaskData => ({
@@ -52,19 +54,23 @@ export const subtasksApiSlice = apiSlice.injectEndpoints({
                     ...initialSubtaskData,
                 }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Subtask', id: arg.id }
-            ]
+            invalidatesTags: (result, error, arg) => {
+                return [
+                    { type: 'Task', id: arg.taskId }
+                ]
+            }
         }),
         deleteSubtask: builder.mutation({
             query: ({ id, taskId }) => ({
                 url: `/subtask`,
                 method: 'DELETE',
-                body: { id, taskId}
+                body: { id, taskId }
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'Subtask', id: arg.id }
-            ]
+            invalidatesTags: (result, error, arg) => {
+                return [
+                    { type: 'Task', id: arg.taskId }
+                ]
+            }
         }),
     }),
 })
